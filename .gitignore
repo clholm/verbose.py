@@ -252,3 +252,9 @@ paket-files/
 *.sln.iml
 /verbose.py.pyproj
 /verbose.py.sln
+/verbose.py.pyperf
+/verbose.pyproj
+/verbose.broken.py
+/Performance.pyperf
+/driver.py
+/__pycache__/verbose.cpython-34.pyc
