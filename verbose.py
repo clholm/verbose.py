@@ -36,23 +36,8 @@ def build_dictionary(string):
 # function, and retrieves the most frequently used words
 def verbose_counter(website, number_of_words): 
 
-    # get the website, error messages includeed
-    try: 
-        r = requests.get(website, timeout = .01)
-    except requests.exceptions.Timeout: 
-        print("timeout!!!!!")
-        exit(1)
-    except requests.exceptions.TooManyRedirects: 
-        print("too many redirects?")
-    except requests.exceptions.HTTPError as err:
-        #HTTP error, print and exit
-        print(err)
-        exit(1)
-    except requests.exceptions.RequestException as e: 
-        #catastrophic failure, exit(1)
-        print(e)
-        exit(1)
-  
+    # get the website
+    r = requests.get(website, timeout = 5)
     tree = html.fromstring(r.content)
     tags = tree.xpath('//body')
 
