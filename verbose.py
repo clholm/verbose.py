@@ -1,4 +1,4 @@
-from lxml import html
+from lxml import html, etree
 import requests
 
 # functions
@@ -32,10 +32,27 @@ def build_dictionary(string):
 
     return (word_dictionary)
 
-
+# driver function that pulls data from the website, calls the build dictionary
+# function, and retrieves the most frequently used words
 def verbose_counter(website, number_of_words): 
 
-    r = requests.get(website)
+    # get the website, error messages includeed
+    try: 
+        r = requests.get(website, timeout = .01)
+    except requests.exceptions.Timeout: 
+        print("timeout!!!!!")
+        exit(1)
+    except requests.exceptions.TooManyRedirects: 
+        print("too many redirects?")
+    except requests.exceptions.HTTPError as err:
+        #HTTP error, print and exit
+        print(err)
+        exit(1)
+    except requests.exceptions.RequestException as e: 
+        #catastrophic failure, exit(1)
+        print(e)
+        exit(1)
+  
     tree = html.fromstring(r.content)
     tags = tree.xpath('//body')
 
@@ -45,6 +62,7 @@ def verbose_counter(website, number_of_words):
     else: 
         text = '' 
 
+    # call the build_dictionary function
     word_dictionary = build_dictionary(text)
 
     repeatedList = []
