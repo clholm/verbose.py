@@ -7,28 +7,22 @@ import requests
 # them into a dictionary to count them
 def build_dictionary(string): 
     word_dictionary = dict()
+    append_string = ""
     j = 0
 
     for i in range (len(string)):
 
-        if (string[i].isalnum()) is False:
-            append_it = string[j:i].lower()
-            if append_it != "": 
-
-                if append_it in word_dictionary: 
-                    word_dictionary[append_it] += 1
-                else: 
-                    word_dictionary[append_it] = 1
-                
-            j = i + 1
-
-    append_it = string[j:].lower()
-
-    if append_it != "": 
-        if append_it in word_dictionary: 
-            word_dictionary[append_it] += 1
+        if string[i].isalnum(): 
+            append_string = append_string + string[i].lower()
         else: 
-            word_dictionary[append_it] = 1
+            if append_string != "": 
+                
+                if append_string in word_dictionary: 
+                    word_dictionary[append_string] += 1
+                else: 
+                    word_dictionary[append_string] = 1
+
+                append_string = ""
 
     return (word_dictionary)
 
@@ -50,20 +44,21 @@ def verbose_counter(website, number_of_words):
     # call the build_dictionary function
     word_dictionary = build_dictionary(text)
 
-    repeatedList = []
+    repeated_list = []
 
     # loop through the dictionary 
     for key, value in word_dictionary.items(): 
-        repeatedList.append([value, key]) 
+        repeated_list.append([value, key]) 
 
-    repeatedList.sort(reverse=True)
+    # sort list in descending order of frequency 
+    repeated_list.sort(reverse=True)
 
     i = 0
     frequent_words = [] 
 
-    if repeatedList != []:
+    if repeated_list != []:
         while i < number_of_words:
-            frequent_words.append(repeatedList[i][1])
+            frequent_words.append(repeated_list[i][1])
             i += 1 
 
     return frequent_words

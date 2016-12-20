@@ -258,3 +258,6 @@ paket-files/
 /Performance.pyperf
 /driver.py
 /__pycache__/verbose.cpython-34.pyc
+/verbose.working.py
+/outOld.txt
+/outNew.txt
