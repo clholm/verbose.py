@@ -18,12 +18,10 @@ def build_dictionary_stopwords(string, word_dictionary):
             append_string = append_string + string[i].lower()
         else:
             if append_string != "":
-
                 if append_string in word_dictionary:
                     word_dictionary[append_string] += 1
                 else:
                     word_dictionary[append_string] = 1
-
                 append_string = ""
 
     return (word_dictionary)
@@ -70,14 +68,12 @@ def build_dictionary_no_stopwords(string, word_dictionary):
             append_string = append_string + string[i].lower()
         else:
             if append_string != "":
-
                 # if append_string isn't a stopword, add it to word_dictionary
                 if append_string not in stopwords:
                     if append_string in word_dictionary:
                         word_dictionary[append_string] += 1
                     else:
                         word_dictionary[append_string] = 1
-
                 append_string = ""
 
     return (word_dictionary)
@@ -97,23 +93,26 @@ def verbose_counter(website, number_of_words,
     allowing duplicates will return every word that is tied, and not
     allowing duplicates will break the tie in alphabetic order
     (default True)
-    stopwords_allowed - whether or not stopwords are allowed in the
+    stopwords_allowed -- whether or not stopwords are allowed in the
     final list. Uses English stopwords from the NLTK. (default False) """
 
-    # get the website
+    # retrieve html from website (5s timeout) and make tree
     r = requests.get(website, timeout=5)
     tree = html.fromstring(r.content)
     tags = tree.xpath('//body')
 
+    # if there is text content in the body of the page, save it to the 
+    # 'text' string. otherwise make text blank
     if tags:
         body = tags[0]
         text = body.text_content()
     else:
-        text = ''
-
+        text = ""
+    
+    # intialize the word dictionary and call one of the build_dictionary 
+    # functions
     word_dictionary = dict()
 
-    # call one of the build_dictionary functions
     if stopwords_allowed:
         build_dictionary_stopwords(text, word_dictionary)
     else:
@@ -134,15 +133,12 @@ def verbose_counter(website, number_of_words,
 
     if repeated_list != []:
         if duplicates_allowed:
-             
             while i < number_of_words:
-
                 # if this is the last word to append to the list,
                 # check to see if there are multiple words with the same
                 # frequency
                 if i < len(repeated_list):
                     if i == number_of_words - 1:
-                        # initialize variable j
                         j = i
                         while j < len(repeated_list):
                             # if the word has the same frequency, append it to
@@ -151,20 +147,16 @@ def verbose_counter(website, number_of_words,
                                 frequent_words.append(repeated_list[j][1])
                             else:
                                 break
-
                             j += 1
                     else:
                         frequent_words.append(repeated_list[i][1])
                 else:
                     break
-
                 i += 1
         else:
             while i < number_of_words:
-
                 if i < len(repeated_list):
                     frequent_words.append(repeated_list[i][1])
-
                 i += 1
 
-    return repeated_list
+    return frequent_words
