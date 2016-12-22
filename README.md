@@ -30,4 +30,4 @@ count, and as a result will not be in the returned list
 This code is provided under the MIT License. Do whatever you want with it! 
 
 If you have any questions, suggestions, or other comments feel free to email me at
-clholm@umich.edu (or visit my website at [clholm.com](http://clholm.com/)
+clholm@umich.edu (or visit my website at [clholm.com](http://clholm.com/))
